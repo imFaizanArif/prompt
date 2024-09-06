@@ -9,13 +9,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Enable CORS for all origins
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allows requests from every origin
+}));
 
 // Set Content Security Policy header
 app.use((req, res, next) => {
     res.setHeader(
         'Content-Security-Policy',
-        "default-src 'self'; connect-src 'self' https://promptt-lemon.vercel.app"
+        "default-src 'self'; connect-src 'self' https://promptt-lemon.vercel.app; script-src 'self'; style-src 'self'; font-src 'self';"
     );
     next();
 });
@@ -45,12 +47,9 @@ app.post('/api/solve-js-problem', async (req, res) => {
 
         const openaiResponse = response.choices[0].message.content.trim();
 
-        // Assuming OpenAI returns valid JavaScript code in response
-        const formattedSolution = openaiResponse.replace(/\\/g, '');
-
         // Send formatted solution in the response
         res.json({
-            solution: formattedSolution,
+            solution: openaiResponse.replace(/\\/g, ''),
         });
     } catch (error) {
         console.error('Error communicating with OpenAI:', error.message || 'Unknown error');
