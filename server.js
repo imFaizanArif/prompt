@@ -7,6 +7,15 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Set Content Security Policy header
+app.use((req, res, next) => {
+    res.setHeader(
+        'Content-Security-Policy',
+        "default-src 'self'; connect-src 'self' https://promptt-lemon.vercel.app"
+    );
+    next();
+});
+
 // OpenAI configuration
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -40,17 +49,25 @@ app.post('/api/solve-js-problem', async (req, res) => {
             solution: formattedSolution,
         });
     } catch (error) {
-        console.error('Error communicating with OpenAI:', error.response ? error.response.data : error.message);
+        console.error('Error communicating with OpenAI:', error.message || 'Unknown error');
 
-        if (error.response && error.response.status === 429) {
-            res.status(429).json({
-                error: 'Rate limit exceeded or quota reached. Please check your API usage and billing details.',
-                details: error.response.data,
-            });
+        if (error.response) {
+            const { status, data } = error.response;
+            if (status === 429) {
+                res.status(429).json({
+                    error: 'Rate limit exceeded or quota reached. Please check your API usage and billing details.',
+                    details: data,
+                });
+            } else {
+                res.status(status || 500).json({
+                    error: 'Error communicating with OpenAI',
+                    details: data,
+                });
+            }
         } else {
             res.status(500).json({
                 error: 'Error communicating with OpenAI',
-                details: error.response ? error.response.data : error.message,
+                details: error.message || 'Unknown error',
             });
         }
     } finally {

@@ -1,36 +1,47 @@
 const problemDescription = `
-10. Regular Expression Matching
+23. Merge k Sorted Lists
 Hard
-Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+Topics
+Companies
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
-'.' Matches any single character.
-'*' Matches zero or more of the preceding element.
-The matching should cover the entire input string (not partial).
+Merge all the linked-lists into one sorted linked-list and return it.
+
+ 
 
 Example 1:
-Input: s = "aa", p = "a"
-Output: false
-Explanation: "a" does not match the entire string "aa".
 
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
 Example 2:
-Input: s = "aa", p = "a*"
-Output: true
-Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
 
+Input: lists = []
+Output: []
 Example 3:
-Input: s = "ab", p = ".*"
-Output: true
-Explanation: ".*" means "zero or more (*) of any character (.)".
+
+Input: lists = [[]]
+Output: []
+ 
 
 Constraints:
-1 <= s.length <= 20
-1 <= p.length <= 20
-s contains only lowercase English letters.
-p contains only lowercase English letters, '.', and '*'.
-It is guaranteed for each appearance of the character '*', there will be a previous valid character to match.
+
+k == lists.length
+0 <= k <= 104
+0 <= lists[i].length <= 500
+-104 <= lists[i][j] <= 104
+lists[i] is sorted in ascending order.
+The sum of lists[i].length will not exceed 104.
 `;
 
-fetch('http://localhost:3000/api/solve-js-problem', {
+fetch('https://promptt-lemon.vercel.app/api/solve-js-problem', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
