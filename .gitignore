@@ -1,0 +1,66 @@
+.vercel
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime files
+pids
+*.pid
+*.seed
+
+# Directory for temporary files
+tmp
+temp
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Coverage directory for test reports
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# Mac system files
+*.DS_Store
+
+# Windows system files
+*.log
+*.pid
+*.seed
+*.suo
+*.ntvs_analysis.dat
+*.cache
+*.buildlog
+
+# NPM
+package-lock.json
+
+# Yarn
+yarn.lock
+
+# TypeScript
+*.tsbuildinfo
+
+# Miscellaneous
+*.swp
+*.swo
+*.swn
+*.sww
+*.tmp
