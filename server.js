@@ -1,11 +1,15 @@
 import express from 'express';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Enable CORS for all origins
+app.use(cors());
 
 // Set Content Security Policy header
 app.use((req, res, next) => {
