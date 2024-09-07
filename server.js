@@ -8,13 +8,15 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS for all origins with specific methods (GET and POST)
+// Enable CORS for all origins with specific methods
 app.use(cors({
     origin: '*', // Allows requests from every origin
-    methods: ['GET', 'POST'], // Specify allowed methods
+    methods: ['GET', 'POST', 'OPTIONS'], // Include OPTIONS method
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add allowed headers
+    credentials: true, // Allow credentials if necessary
 }));
 
-// Middleware to set Content Security Policy header
+// Set Content Security Policy header (optional, may not be needed during development)
 app.use((req, res, next) => {
     res.setHeader(
         'Content-Security-Policy',
