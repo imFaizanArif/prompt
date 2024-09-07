@@ -8,12 +8,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS for all origins
+// Enable CORS for all origins with specific methods (GET and POST)
 app.use(cors({
     origin: '*', // Allows requests from every origin
+    methods: ['GET', 'POST'], // Specify allowed methods
 }));
 
-// Set Content Security Policy header
+// Middleware to set Content Security Policy header
 app.use((req, res, next) => {
     res.setHeader(
         'Content-Security-Policy',
@@ -47,9 +48,12 @@ app.post('/api/solve-js-problem', async (req, res) => {
 
         const openaiResponse = response.choices[0].message.content.trim();
 
+        // Assuming OpenAI returns valid JavaScript code in response
+        const formattedSolution = openaiResponse.replace(/\\/g, '');
+
         // Send formatted solution in the response
         res.json({
-            solution: openaiResponse.replace(/\\/g, ''),
+            solution: formattedSolution,
         });
     } catch (error) {
         console.error('Error communicating with OpenAI:', error.message || 'Unknown error');
@@ -77,6 +81,9 @@ app.post('/api/solve-js-problem', async (req, res) => {
         console.log('Request to OpenAI completed');
     }
 });
+
+// Handle preflight CORS requests
+app.options('*', cors());
 
 // Start the server
 app.listen(port, () => {
